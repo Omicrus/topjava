@@ -5,6 +5,6 @@ import ru.javawebinar.topjava.model.Meal;
 import java.util.List;
 
 public interface MealDao {
-    List<Meal> getAllMeals();
-
+    public List<Meal> getAllMeals();
+    public int getCaloriesPerDay();
 }

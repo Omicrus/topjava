@@ -9,9 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MealDaoImpl implements MealDao {
-    private final int caloriesPerDay = 2000;
+    private final int CALORIES_PER_DAY = 2000;
     private List<Meal> meals;
-
     {
         meals = new ArrayList<>(Arrays.asList(
                 new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0), "Завтрак", 500),
@@ -31,8 +30,23 @@ public class MealDaoImpl implements MealDao {
         return meals;
     }
 
+    @Override
+    public Meal getMeal(int id) {
+        return null;
+    }
+
+    @Override
+    public void updateMeal(Meal meal) {
+
+    }
+
+    @Override
+    public void deleteMeal(Meal meal) {
+
+    }
+
 
     public int getCaloriesPerDay() {
-        return caloriesPerDay;
+        return CALORIES_PER_DAY;
     }
 }
