@@ -23,26 +23,30 @@
     }
 </style>
 
+<p><a href="MealServlet?action=insert">Add Meal</a></p>
+
 <table>
     <thead>
     <tr>
         <th>Date</th>
         <th>Description</th>
         <th>Calories</th>
+        <th></th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
     <jsp:useBean id="mealsTo" scope="request" type="java.util.List"/>
     <c:forEach items="${mealsTo}" var="meal">
 
-        <c:set var="color" value="${meal.excess ? 'color: red': 'color: green'}"/>
-
-        <tr style="${color}">
+        <tr style="${meal.excess ? 'color: red': 'color: green'}">
             <td><fmt:parseDate value="${meal.dateTime}" pattern="yyyy-MM-dd'T'HH:mm"
                                var="parsedDateTime" type="both"/>
                 <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${parsedDateTime}"/></td>
             <td><c:out value="${meal.description}"/></td>
             <td><c:out value="${meal.calories}"/></td>
+            <td><a href="MealServlet?action=update&mealId=<c:out value="${meal.id}"/>">Update</a></td>
+            <td><a href="MealServlet?action=delete&mealId=<c:out value="${meal.id}"/>">Delete</a></td>
         </tr>
     </c:forEach>
     </tbody>
