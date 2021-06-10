@@ -16,12 +16,6 @@
 <hr>
 <h2>Edit meal</h2>
 
-<script>
-    $(function () {
-        $('input[name=datetime-local]').datepicker();
-    });
-</script>
-
 <form method="POST" action='MealServlet' name="frmAddMeal">
 
     Meal Id: <input type="hidden" name="mealId" value="<c:out value="${meal.id}"/>">
@@ -38,8 +32,8 @@
         type="text" name="calories"
         value="<c:out value="${meal.calories}" />"/> <br/>
 
-    <input type="submit" value="Save"/>
-    <button type="button"><b>Cancel</b></button>
+    <button type="submit">Save</button>
+    <button type="button" onclick="window.history.back()">Cancel</button>
 </form>
 </body>
 </html>

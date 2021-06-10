@@ -13,16 +13,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class MealServlet extends HttpServlet {
-    private static final Logger log = getLogger(UserServlet.class);
+    private static final Logger LOG = getLogger(UserServlet.class);
     private static final String INSERT_OR_EDIT = "/meal.jsp";
-    private static final String LIST_USER = "/meals.jsp";
+    private static final String MEALS_LIST = "/meals.jsp";
     private final MealDao mealDao;
 
     public MealServlet() {
@@ -33,7 +32,7 @@ public class MealServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        log.debug("redirect to meals");
+        LOG.debug("redirect to meals");
 
         String pathJsp;
 
@@ -42,17 +41,15 @@ public class MealServlet extends HttpServlet {
         if (action.equalsIgnoreCase("delete")) {
             int id = Integer.parseInt(request.getParameter("mealId"));
             mealDao.deleteById(id);
-            pathJsp = LIST_USER;
+            pathJsp = MEALS_LIST;
             request.setAttribute("mealsTo", getMealTos());
         } else if (action.equalsIgnoreCase("update")) {
             pathJsp = INSERT_OR_EDIT;
             int id = Integer.parseInt(request.getParameter("mealId"));
-
             Meal meal = mealDao.getById(id);
             request.setAttribute("meal", meal);
-
         } else if (action.equalsIgnoreCase("listMeal")) {
-            pathJsp = LIST_USER;
+            pathJsp = MEALS_LIST;
             request.setAttribute("mealsTo", getMealTos());
         } else {
             pathJsp = INSERT_OR_EDIT;
@@ -80,10 +77,10 @@ public class MealServlet extends HttpServlet {
         }
 
         request.setAttribute("mealsTo", getMealTos());
-        request.getRequestDispatcher(LIST_USER).forward(request, response);
+        request.getRequestDispatcher(MEALS_LIST).forward(request, response);
     }
 
     private List<MealTo> getMealTos() {
-        return MealsUtil.filteredByStreams(mealDao.getAll(), LocalTime.MIN, LocalTime.MAX, mealDao.getCaloriesPerDay());
+        return MealsUtil.getWithExceeded(mealDao.getAll(),  mealDao.getCaloriesPerDay());
     }
 }
