@@ -9,6 +9,8 @@ import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.to.MealTo;
 import ru.javawebinar.topjava.util.MealsUtil;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
@@ -20,15 +22,19 @@ import static ru.javawebinar.topjava.web.SecurityUtil.authUserId;
 public class MealRestController {
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
-    private MealService service;
+    private final MealService service;
 
-    public List<MealTo> getAll() {
-        log.info("getAll");
-        return MealsUtil.getTos(service.getAll(authUserId()), authUserCaloriesPerDay());
+    @Autowired
+    public MealRestController(MealService service) {
+        this.service = service;
     }
 
-    public Meal get(int id) {
+    public List<MealTo> getAll(int userId, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
+        log.info("getAllFiltered");
+        return MealsUtil.getFilteredTos(service.getAll(authUserId(), startDate, endDate), authUserCaloriesPerDay(), startTime, endTime);
+    }
+
+    public Meal get(int id, int userId) {
         log.info("get {}", id);
         return service.get(id, authUserId());
     }
@@ -39,7 +45,7 @@ public class MealRestController {
         return service.create(meal);
     }
 
-    public void delete(int id) {
+    public void delete(int id, int userId) {
         log.info("delete {}", id);
         service.delete(id, authUserId());
     }
