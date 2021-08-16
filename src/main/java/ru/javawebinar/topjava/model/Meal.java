@@ -10,9 +10,8 @@ import java.time.LocalTime;
 
 @NamedQueries({
         @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id AND m.user.id=:userId"),
-        @NamedQuery(name = Meal.GET_ALL, query = "SELECT m FROM Meal m WHERE m.user.id=:userId ORDER BY m.dateTime DESC"),
-        @NamedQuery(name = Meal.GET, query = "SELECT m FROM Meal m WHERE m.id=:id AND m.user.id=:userId"),
-        @NamedQuery(name = Meal.ALL_FILTERED, query = "SELECT m FROM Meal m WHERE m.user.id=:userId AND m.dateTime >= ?1 AND m.dateTime < ?2 ORDER BY m.dateTime DESC"),
+        @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m FROM Meal m WHERE m.user.id=:userId ORDER BY m.dateTime DESC"),
+        @NamedQuery(name = Meal.GET_BETWEEN, query = "SELECT m FROM Meal m WHERE m.user.id=:userId AND m.dateTime >= :startDateTime AND m.dateTime < :endDateTime ORDER BY m.dateTime DESC"),
 })
 
 
@@ -21,9 +20,8 @@ import java.time.LocalTime;
 public class Meal extends AbstractBaseEntity {
 
     public static final String DELETE = "Meal.delete";
-    public static final String GET_ALL = "Meal.getAll";
-    public static final String GET = "Meal.get";
-    public static final String ALL_FILTERED = "Meal.getAllFiltered";
+    public static final String ALL_SORTED = "Meal.getAll";
+    public static final String GET_BETWEEN = "Meal.getAllFiltered";
 
 
     @Column(name = "date_time", nullable = false)

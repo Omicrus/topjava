@@ -6,6 +6,7 @@ import org.junit.runner.Description;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class TimingRules {
@@ -24,7 +25,7 @@ public class TimingRules {
 
     // элемент разметки
     //    https://dzone.com/articles/applying-new-jdk-11-string-methods
-    private static final String DELIM = "----------------------------------------------------------------------------------";
+    private static final String DELIM = "-----------------------------------------------------------------------------------------------------";
 
     //форматируем красивый вывод в консоль
     public static final ExternalResource SUMMARY = new ExternalResource() {
